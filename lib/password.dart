@@ -1,5 +1,7 @@
 import 'package:electrifyy/signup.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 class password extends StatefulWidget {
   const password({Key? key}) : super(key: key);
 
@@ -96,6 +98,25 @@ class _passwordState extends State<password> {
         ),
       ),
     );
+
+  }
+  Future signUp() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Center(child : CircularProgressIndicator()),
+    );
+
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: _passwordController.text.trim(),
+      );
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
 
   }
 }
