@@ -31,16 +31,28 @@ class _signupState extends State<signup> {
           ),
         ),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
+           // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image(image: AssetImage('assets/bulb.gif')),
-                  SizedBox(height: 10),
+                  //SizedBox(height: 10),
               Container(
                 padding: EdgeInsets.only(right: 35,left: 35),
                 child: TextField(
                   decoration: InputDecoration(
                     hintText: 'Consumer ID',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5)
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Container(
+                padding: EdgeInsets.only(right: 35,left: 35),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Phone Number',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5)
                     ),
@@ -63,51 +75,69 @@ class _signupState extends State<signup> {
                     ),
                   ),
                   SizedBox(height: 10),
-              Container(
-                padding: EdgeInsets.only(right: 35,left: 35),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Phone Number',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5)
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
 
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: SizedBox(
-                      height: 52,
-                      width: 200,
-                      child: ElevatedButton(
-                        child: Text('NEXT',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/password');
-                          String email = _emailController.text;
-                          String password = _passwordController.text;
-                          String confirmPassword = _confirmPasswordController.text;
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                        ),
+              SizedBox(height: 10),
+        Container(
+          padding: EdgeInsets.only(right: 35,left: 35),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.white,
+          ),
+          child: TextField(
+            controller: _passwordController,
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Password',
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+        Container(padding: EdgeInsets.only(right: 35,left: 35),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.white,
+          ),
+          child: TextField(
+            controller: _confirmPasswordController,
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Confirm Password',
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SizedBox(
+            height: 52,
+            width: 200,
+            child: ElevatedButton(
+              onPressed: () {
+                signup();
+                Navigator.pushNamed(context, '/login');
+                //String email = _emailController.text;
+                String password = _passwordController.text;
+                String confirmPassword = _confirmPasswordController.text;
+              },
+              child: Text('SIGN IN',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),),
+
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+              ),
+            ),
+          ),
+          ),],
                       ),
                     ),
                   ),
-                ],
-              ),
-
-          ),
-        ),
-      );
-
+              );
     }
   }
 

@@ -16,7 +16,7 @@ class MainPage extends StatelessWidget {
         } else if (snapshot.hasData) {
           return nav();
         } else {
-          return getstarted();
+          return SplashScreen();
         }
       },
 
