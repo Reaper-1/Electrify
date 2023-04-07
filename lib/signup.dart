@@ -1,3 +1,4 @@
+import 'package:electrifyy/database.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,14 @@ class signup extends StatefulWidget {
 }
 
 class _signupState extends State<signup> {
+  late String name,CId,phone;
   final formKey = GlobalKey<FormState>();
+  final CIdController = TextEditingController();
+  final pnumController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _repasswordController = TextEditingController();
-  TextEditingController _confirmPasswordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  //TextEditingController _confirmPasswordController = TextEditingController();
   @override
   void main() =>
       runApp(MyApp());
@@ -34,38 +38,105 @@ class _signupState extends State<signup> {
           ),
         ),
         child: Form(
+          key: formKey,
           child: Center(
             child: ListView(
              // mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image(image: AssetImage('assets/bulb.gif')),
-                    //SizedBox(height: 10),
+                Image.asset("assets/bulb.gif", height: 122),
                 Container(
-                  padding: EdgeInsets.only(right: 35,left: 35),
-                  child: TextField(
+                  padding: const EdgeInsets.only(bottom: 10,left: 35,right: 35),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white,
+                  ),
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                      hintText: 'Consumer ID',
+                      labelText: 'Name',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5)
                       ),
                     ),
+                    validator: (String? value){
+                      if(value!.isEmpty)
+                      {
+                        return 'Enter Name';
+                      }
+                      return null;
+                    },
+                    onSaved: (String? value){
+                      name = value!;
+                    },
                   ),
                 ),
+                Container(
+                  padding: const EdgeInsets.only(left: 35,right: 35),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white,
+                  ),
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                            labelText: 'Consumer ID',
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5)
+                            ),
+                          ),
+                    validator: (String? value){
+                      if(value!.isEmpty)
+                      {
+                        return 'Enter Consumer ID';
+                      }
+                      return null;
+                    },
+                    onSaved: (String? value){
+                      CId = value!;
+                    },
+                  ),
+                ),
+                // Container(
+                //   padding: EdgeInsets.only(right: 35,left: 35),
+                //   child: TextFormField(
+                //     decoration: InputDecoration(
+                //       hintText: 'Consumer ID',
+                //       border: OutlineInputBorder(
+                //           borderRadius: BorderRadius.circular(5)
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 SizedBox(height: 10),
                 Container(
-                  padding: EdgeInsets.only(right: 35,left: 35),
-                  child: TextField(
+                  padding: const EdgeInsets.only(left: 35,right: 35),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white,
+                  ),
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      hintText: 'Phone Number',
+                      labelText: 'Phone no.',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5)
                       ),
                     ),
+                    validator: (String? value){
+                      if(value!.isEmpty)
+                      {
+                        return 'Please Enter Phone no ';
+                      }
+                      return null;
+                    },
+                    onSaved: (String? value){
+                      phone = value!;
+                    },
                   ),
                 ),
                 SizedBox(height: 10),
                     Container(
-                      padding: EdgeInsets.only(right: 35,left: 35),
+                      padding: EdgeInsets.only(left: 35,right: 35),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: Colors.white,
@@ -84,8 +155,6 @@ class _signupState extends State<signup> {
                       ),
                     ),
                     SizedBox(height: 10),
-
-                SizedBox(height: 10),
           Container(
             padding: EdgeInsets.only(right: 35,left: 35),
             decoration: BoxDecoration(
@@ -106,33 +175,58 @@ class _signupState extends State<signup> {
             ),
           ),
           SizedBox(height: 10),
-          Container(padding: EdgeInsets.only(right: 35,left: 35),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.white,
-            ),
-            child: TextField(
+          Padding(
+            padding: const EdgeInsets.only(left: 35,right: 35),
+            child: TextFormField(
               controller: _confirmPasswordController,
               obscureText: true,
+              keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 labelText: 'Confirm Password',
                 border: OutlineInputBorder(),
               ),
+              validator: (String? value){
+                if(value!.isEmpty)
+                {
+                  return 'Please re-enter password';
+                }
+                print(_passwordController.text);
+
+                print(_confirmPasswordController.text);
+
+                if(_passwordController.text!=_confirmPasswordController.text){
+                  return "Password does not match";
+                }
+
+                return null;
+              },
+
             ),
+          // Container(padding: EdgeInsets.only(right: 35,left: 35),
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(5),
+          //     color: Colors.white,
+          //   ),
+          //   child: TextField(
+          //     controller: _confirmPasswordController,
+          //     obscureText: true,
+          //     decoration: InputDecoration(
+          //       labelText: 'Confirm Password',
+          //       border: OutlineInputBorder(),
+          //     ),
+          //   ),
           ),
           SizedBox(height: 10),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(35.0),
             child: SizedBox(
               height: 52,
               width: 200,
               child: ElevatedButton(
                 onPressed: () {
-                  signUp();
-                  Navigator.pushNamed(context, '/login');
-                  //String email = _emailController.text;
-                  String password = _passwordController.text;
-                  String confirmPassword = _confirmPasswordController.text;
+                  if(formKey.currentState!.validate()){
+                    signUp();
+                  }
                 },
                 child: Text('SIGN IN',
                   style: TextStyle(
@@ -155,8 +249,6 @@ class _signupState extends State<signup> {
     }
 
     Future signUp() async {
-     final isValid = formKey.currentState!.validate();
-     if (!isValid) return;
 
      showDialog(
          context: context,
@@ -165,10 +257,14 @@ class _signupState extends State<signup> {
      );
      
      try{
-       await FirebaseAuth.instance.createUserWithEmailAndPassword(
+       UserCredential result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
            email: _emailController.text.trim(),
            password: _passwordController.text.trim(),
        );
+       // User? user = result.user;
+       // String CId = CIdController as String;
+       // int pnum = pnumController as int;
+       // await DatabaseService(uid: user!.uid).updateUserData('123456',12345678);
      } on FirebaseAuthException catch (e) {
        print(e);
      }
@@ -176,7 +272,4 @@ class _signupState extends State<signup> {
     }
   }
 
-  class DatabaseService {
-
-  }
 
