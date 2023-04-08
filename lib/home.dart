@@ -119,11 +119,11 @@ class _HomePageState extends State<HomePage> {
       padding: EdgeInsets.only(top: 15),
       child: Column(
         children: [
-          menuItem(1,"Profile",Icons.person,currentPage==DrawerSections.settings ? true:false
+          menuItem(1,"Profile",Icons.person,currentPage==DrawerSections.profile ? true:false
           ),
           menuItem(2,"Settings",Icons.settings,currentPage==DrawerSections.settings ? true:false
           ),
-          menuItem(3,"Logout",Icons.logout,currentPage==DrawerSections.settings ? true:false
+          menuItem(3,"Logout",Icons.logout,currentPage==DrawerSections.logout ? true:false
           ),
         ],
       ),

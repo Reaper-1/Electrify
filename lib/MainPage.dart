@@ -1,3 +1,4 @@
+import 'package:electrifyy/login.dart';
 import 'package:electrifyy/nav.dart';
 import 'package:electrifyy/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,7 +17,7 @@ class MainPage extends StatelessWidget {
         } else if (snapshot.hasData) {
           return nav();
         } else {
-          return getstarted();
+          return login();
         }
       },
 

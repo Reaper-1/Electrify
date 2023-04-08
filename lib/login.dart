@@ -29,8 +29,8 @@ class _loginState extends State<login> {
           ),
         ),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
+            //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image(
                 image: AssetImage('assets/bulb.gif'),
@@ -106,6 +106,20 @@ class _loginState extends State<login> {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: TextButton(
+                      child: Text('Dont have account? signup',
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.black45
+                        ),),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/signup');
+                      },
+                    ),),
                 ],
               ),
             ],
